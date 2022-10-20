@@ -1,4 +1,4 @@
- ## +++ This is a RC version of JC-miniLAPS +++
+## +++ This is a RC version of JC-miniLAPS +++
 ## Version: RC 1.0
 ##
 ## Why is it called 'JC-miniLAPS'?
