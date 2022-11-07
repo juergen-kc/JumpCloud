@@ -12,13 +12,13 @@ Please define the parameters below according to your environment.
 # Please specify the name of your network here:
 $Name = 'MyNetwork'
 # Please specify your PreShareKey (or other type of credentials) here:
-#not-in-use $PSK = 'MyPreSharedKey' # https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-elements
+#not-in-use-here $PSK = 'MyPreSharedKey' # https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-elements
 # Please specify the name of the SSID here:
 $SSID = 'MySSID'
 # Please specify the Connection Type (IBSS for AdHoc; ESS for Infrastructure) here:
 $ConnectionType = 'ESS' 
 # Please specify the Connection Mode (Auto or Manual) here:
-#not-in-use $ConnectionMode = 'Auto' 
+#not-in-use-here $ConnectionMode = 'Auto' 
 ### End of configuration ###
 
 # Generate random Guid for the profile
