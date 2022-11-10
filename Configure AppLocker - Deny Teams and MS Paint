@@ -1,0 +1,14 @@
+# Bypass Execution-Policy
+Set-ExecutionPolicy Bypass -Force
+
+# Change Service Credentials
+#$credential = Get-Credential
+# Set-Service AppIDSvc -Credential $credential
+
+# Set Application Identity Service to Automatic
+Stop-Service AppIDSvc
+Set-Service AppIDSvc -StartupType Automatic 
+Start-Service AppIDSvc
+
+# Import and set the AppLocker Policy previously created with gpedit.msc
+Set-AppLockerPolicy -XmlPolicy C:\Windows\Temp\DenyTeamsPaint.xml
