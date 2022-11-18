@@ -1,7 +1,7 @@
 # Create Groups for Macs based on chipset
 
 # Edit the variables below, you shouldn't need to edit any other lines.
-$jcApiKey = '911cccf458c9f2e4b7e970b6762fad268f84ab4e'
+$jcApiKey = '<YOUR API KEY>'
 $groupNames = @{
     intelGroupName = 'Mac - Intel Systems'
     m1GroupName    = 'Mac - M1 Systems'
