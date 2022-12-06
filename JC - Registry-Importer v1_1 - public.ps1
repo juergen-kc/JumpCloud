@@ -1,4 +1,4 @@
-<#
+ <#
 ##############################################################################################################################
 .FUNCTIONALITY
 This script will export an existing registry keys from a reference machine and import them to a JumpCloud Policy.
@@ -7,7 +7,7 @@ This script will export an existing registry keys from a reference machine and i
 ...
 
 Authors: Juergen Klaassen & Shawn Song
-Version: 1.1
+Version: 1.2
 Date: 2022-12-01
 
 .NOTES
@@ -41,19 +41,19 @@ Known Issues:
 #>
 
 # Put in your JumpCloud org ID & API Key (Writeable):
-$org_id = "<Organization ID>"
-$apikey = "<API Key>"
+$org_id = "5ec71e8e96bfda0611fc6c5b"
+$apikey = "911cccf458c9f2e4b7e970b6762fad268f84ab4e"
 
 # Change the policy ID & name accordingly: 
-$policyID = "<Policy ID>"
-$policyName = "<Policy Name>" # e.g. "Advanced: Imported Custom Registry Keys"
+$policyID = "6389d1a1ffb311000162a203"
+$policyName = "Zoom General Settings" # e.g. "Advanced: Imported Custom Registry Keys"
 
 # Specify the path to the CSV file including the filename:
-$csvPath = "<Path to CSV file>"
+$csvPath = "C:\Users\juergen\Documents\ZoomGeneralSettings.csv"
 
 # Full Registry Path to be exported (e.g. HKLM:\SOFTWARE\Policies\Microsoft\Edge)
 # Copy it from the registry editor
-$path_to_export = "<Registry Path>"
+$path_to_export = "HKLM:\SOFTWARE\Policies\Zoom\Zoom Meetings\"
 
 ##############################################################################################################################
 # Don't Change the code below this line! #
@@ -68,9 +68,8 @@ $headers = @{
 
 # Get the current registry keys from the policy into an CSV file
 Function Export-Registry {
-    
+
     <#
-        Forked from Jeffery Hicks (http://jdhitsolutions.com/blog) and modified in this version
        .Synopsis
         Export registry item properties.
         .Description
@@ -116,7 +115,7 @@ Function Export-Registry {
     #>
     
     [cmdletBinding()]
-
+    
     Param(
     [Parameter(Position=0,Mandatory=$True,
     HelpMessage="Enter a registry path using the PSDrive format.",
@@ -128,88 +127,98 @@ Function Export-Registry {
     [Parameter()]
     [ValidateSet("csv","xml")]
     [string]$ExportType,
-
+    
     [Parameter()]
     [string]$ExportPath,
     
     [switch]$NoBinary
     
     )
-
+    
     Begin {
         Write-Verbose -Message "$(Get-Date) Starting $($myinvocation.mycommand)"
         #initialize an array to hold the results
         $data=@()
      } #close Begin
-
+    
     Process {
-        #go through each pipelined path
+        # Go through each pipelined path
         $hiveKeys = (Get-ChildItem -Recurse -Path $path | Select-Object pspath).pspath
+
+        # If the designated key path has an empty value, step 1 level to the left for recursive crawling
+        if ($null -eq $hiveKeys){
+            $hiveKeys = (Get-ChildItem -Recurse (get-itemproperty -path $path | Select-Object PSParentPath).PSParentPath).pspath            
+        
+        }
+        else{
+            Write-Verbose "$path is empty, please consider try a path at least 2 level up.."
+            break
+        }
     
         Foreach ($item in $hiveKeys) {
             Write-Verbose "Exporting non binary properties from $item"
-            #get property names
+            # get property names
             $item = $item.Replace("Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE","HKLM:")
             $properties= Get-ItemProperty -path $item | 
-            #exclude the PS properties
+            # exclude the PS properties
              Select-Object * -Exclude PS*Path,PSChildName,PSDrive,PSProvider |
              Get-Member -MemberType NoteProperty,Property -erroraction "SilentlyContinue"
             if ($NoBinary)
             {
-                #filter out binary items
+                # filter out binary items
                 Write-Verbose "Filtering out binary properties"
                 $properties=$properties | Where-Object {$_.definition -notmatch "byte"}
             }
             Write-Verbose "Retrieved $(($properties | measure-object).count) properties"
-            #enumrate each property getting itsname,value and type
+            # enumrate each property getting itsname,value and type
             foreach ($property in $properties) {
                 Write-Verbose "Exporting $property"
                 $value=(get-itemproperty -path $item -name $property.name).$($property.name)
                 
                 if (-not ($properties))
                 {
-                    #no item properties were found so create a default entry
+                    # no item properties were found so create a default entry
                     $value=$Null
                     $PropertyItem="(Default)"
                     $RegType="System.String"
                 }
                 else
                 {
-                    #get the registry value type
+                    # get the registry value type
                     $regType=$property.Definition.Split()[0]
                     $PropertyItem=$property.name
                 }
-                #create a custom object for each entry and add it the temporary array
+                # create a custom object for each entry and add it the temporary array
                 $data+=New-Object -TypeName PSObject -Property @{
-                    "Path"=$item#.replace.('Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE','HKLM:')
+                    "Path"=$item
                     "Name"=$propertyItem
                     "Value"=$value
                     "Type"=$regType
                 }
-            } #foreach $property
-        }#close Foreach 
-     } #close process
+            } # foreach $property
+        }# close Foreach 
+     } # close process
     
     End {
-      #make sure we got something back
+      # make sure we got something back
       if ($data)
       {
-        #export to a file both a type and path were specified
+        # export to a file both a type and path were specified
         if ($ExportType -AND $ExportPath)
         {
           Write-Verbose "Exporting $ExportType data to $ExportPath"
           Switch ($exportType) {
             "csv" { $data | Export-CSV -Path $ExportPath -noTypeInformation }
             "xml" { $data | Export-CLIXML -Path $ExportPath }
-          } #switch
-        } #if $exportType
+          } # switch
+        } # if $exportType
         elseif ( ($ExportType -AND (-not $ExportPath)) -OR ($ExportPath -AND (-not $ExportType)) )
         {
             Write-Warning "You forgot to specify both an export type and file."
         }
         else 
         {
-            #write data to the pipeline
+            # write data to the pipeline
             $data 
         }  
        } #if $#data
@@ -226,7 +235,7 @@ Function Export-Registry {
    
 # Calling the function to export the registry keys
 Write-Host "Exporting the registry keys to the specified CSV file" $csvPath -ForegroundColor Cyan
-Export-Registry $path_to_export -ExportType csv -ExportPath $csvPath -NoBinary
+Export-Registry $path_to_export -ExportType csv -ExportPath $csvPath -NoBinary 
 
 # Constructing objects for the request body
 Write-Host "Constructing the request body containing existing and new registry keys..." -ForegroundColor Cyan
@@ -291,4 +300,4 @@ Write-Host $newvalue -ForegroundColor Cyan
 $change  = Invoke-RestMethod -Uri $url -Method Put -Headers $headers -Body $body
 
 Write-Host "Completed." -ForegroundColor Cyan
-#EOF
+#EOF 
