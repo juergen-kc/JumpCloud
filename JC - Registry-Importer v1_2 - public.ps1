@@ -41,11 +41,11 @@ Known Issues:
 #>
 
 # Put in your JumpCloud org ID & API Key (Writeable):
-$org_id = "5ec71e8e96bfda0611fc6c5b"
-$apikey = "911cccf458c9f2e4b7e970b6762fad268f84ab4e"
+$org_id = "<ORG ID>"
+$apikey = "<API Key>"
 
 # Change the policy ID & name accordingly: 
-$policyID = "6389d1a1ffb311000162a203"
+$policyID = "<Policy ID>"
 $policyName = "Zoom General Settings" # e.g. "Advanced: Imported Custom Registry Keys"
 
 # Specify the path to the CSV file including the filename:
