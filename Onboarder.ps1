@@ -1,7 +1,7 @@
 <#
 Onboarder Script for JumpCloud v1 (RC)
 
-Article: URL
+Article: https://community.jumpcloud.com/t5/community-scripts/onboarder-exe-to-assign-users-by-using-a-command-after-agent/m-p/1983/highlight/true#M191
 
 #>
 
