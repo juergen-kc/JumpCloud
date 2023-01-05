@@ -1,4 +1,4 @@
-WebClient
+# WebClient
 $dc = New-Object net.webclient
 $dc.UseDefaultCredentials = $true
 $dc.Headers.Add("user-agent", "Inter Explorer")
