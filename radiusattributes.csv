@@ -1,0 +1,32 @@
+name,value
+Service-Type,Framed-User
+Framed-Protocol,PPP
+Framed-IP-Address,192.168.1.100
+Framed-IP-Netmask,255.255.255.0
+Framed-Routing,None
+Filter-Id,example-filter
+Framed-MTU,1500
+Framed-Compression,Van-Jacobson-TCP-IP
+Login-IP-Host,192.168.1.2
+Login-Service,Telnet
+Login-TCP-Port,23
+Reply-Message,Welcome to the network!
+Callback-Number,555-1234
+Callback-Id,cb123
+Framed-Route,192.168.2.0/24 192.168.1.1 1
+Framed-IPX-Network,00000001
+State,0x0123456789abcdef
+Class,0x010203040506
+Session-Timeout,3600
+Idle-Timeout,1800
+Termination-Action,Default
+Called-Station-Id,00-11-22-33-44-55
+Calling-Station-Id,00-66-77-88-99-AA
+NAS-Identifier,nas-001
+Proxy-State,0x9876543210abcdef
+Login-LAT-Service,LAT service name
+Login-LAT-Node,LAT node name
+Login-LAT-Group,LAT group name
+Framed-AppleTalk-Link,1
+Framed-AppleTalk-Network,65280
+Framed-AppleTalk-Zone,Zone 1
