@@ -61,7 +61,7 @@
 
 .LINK
     Repo: https://github.com/juergen-kc/JumpCloud/blob/main/JC%20-%20Get-SystemReport.ps1
-    Article: 
+    Article: https://community.jumpcloud.com/t5/community-scripts/powershell-function-get-systemreport-with-details-on-systeminfo/m-p/2806/highlight/true#M233
 #>
 
 # Check if the JumpCloud PowerShell module is installed
