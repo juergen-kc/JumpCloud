@@ -60,7 +60,7 @@
     - A JumpCloud API key with at least Read permissions
 
 .LINK
-    Repo: https://github.com/juergen-kc/JumpCloud
+    Repo: https://github.com/juergen-kc/JumpCloud/blob/main/JC%20-%20Get-SystemReport.ps1
     Article: 
 #>
 
