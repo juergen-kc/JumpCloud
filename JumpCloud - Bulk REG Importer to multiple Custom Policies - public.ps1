@@ -8,7 +8,7 @@ The script will then update the policy with the registry keys and values from th
 
 .FUNCTIONALITY
 v1.0 - Initial release
-
+v1.1 - minor bug fixes: $path = ($line.TrimStart("[").TrimEnd("]")).Replace("HKEY_LOCAL_MACHINE", "").Replace("\\\\", "\\").TrimStart("\")
 
 .EXAMPLE
 PS C:\> .\JumpCloud - Bulk REG Importer to Custom Policies.ps1
