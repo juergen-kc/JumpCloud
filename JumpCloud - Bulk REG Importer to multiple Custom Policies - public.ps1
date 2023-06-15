@@ -3,11 +3,15 @@
 This script will create a new custom policy for each .reg file in the specified folder. The policy name will be the .reg filename prefixed with the specified prefix. 
 The script will then update the policy with the registry keys and values from the .reg file.
 
+.COMPONENT
+
+
 .FUNCTIONALITY
 v1.0 - Initial release
 
+
 .EXAMPLE
-PS C:\> .\JumpCloud - Bulk REG Importer to multiple Custom Policies - public.ps1
+PS C:\> .\JumpCloud - Bulk REG Importer to Custom Policies.ps1
 
 .INPUTS
 Reg files containing registry keys and values
@@ -15,10 +19,16 @@ Reg files containing registry keys and values
 .OUTPUTS
 Custom policies with registry keys and values from the .reg files
 
+.PARAMETER
+none
+
 .NOTES
-Author: Juergen Klaassen
-Date: 2023-06-09
+Author: Jeroen Klaassen
+Date: 2020-07-09
 Version: 1.0
+
+
+.LINK
 
 #>
 
@@ -46,7 +56,7 @@ function Update-PolicyWithRegistryKeys {
             # Extract ID and Name from comment line (not used in this version)
         } elseif ($line.StartsWith("[")) {
             # Extract registry path from line
-            $path = "HKLM:" + ($line.TrimStart("[").TrimEnd("]")).Replace("HKEY_LOCAL_MACHINE", "").Replace("\\\\", "\\")
+            $path = ($line.TrimStart("[").TrimEnd("]")).Replace("HKEY_LOCAL_MACHINE", "").Replace("\\\\", "\\").TrimStart("\")
         } else {
             # Extract value name, type, and data from line
             if ($line.Contains("=")) {
@@ -127,12 +137,12 @@ function Create-NewPolicy {
 
 # Main script
 # Replace values where indicated:
-$folderPath = "<YOUR_FOLDER_PATH>" # Replace with your folder path
-$prefix = "<YOUR_DESIRED_PREFIX>" # Replace with your custom prefix
+$folderPath = "/Users/jklaassen/Downloads/CIS Custom Practical/" # Replace with your folder path
+$prefix = "_" # Replace with your custom prefix
 
 $headers=@{}
-$headers.Add("x-org-id", "<YOUR_JUMPCLOUD_ORG_ID>") # Replace with your JumpCloud organization ID
-$headers.Add("x-api-key", "YOUR_JUMPCLOUD_API_KEY") # Replace with your JumpCloud API key
+$headers.Add("x-org-id", "<YOUR_ORG_ID>") # Replace with your JumpCloud organization ID
+$headers.Add("x-api-key", "<YOUR_API_KEY>") # Replace with your JumpCloud API key
 $headers.Add("content-type", "application/json")
 
 # Do not change code below this line
