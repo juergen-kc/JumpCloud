@@ -23,7 +23,7 @@ Custom policies with registry keys and values from the .reg files
 none
 
 .NOTES
-Author: Jeroen Klaassen
+Author: Juergen Klaassen
 Date: 2020-07-09
 Version: 1.0
 
