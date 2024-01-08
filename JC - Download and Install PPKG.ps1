@@ -26,3 +26,5 @@ Invoke-WebRequest -Uri $ppkgUrl -OutFile $localPpkgPath
 
 # Optionally, remove the downloaded file
 Remove-Item -Path $localPpkgPath
+
+Pause
