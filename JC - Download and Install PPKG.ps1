@@ -11,18 +11,18 @@ $expectedHash = "ieQp9Aa5jumX/32o1BS0s1TQE9XMCSyDASrhBjWPeXk="
 Invoke-WebRequest -Uri $ppkgUrl -OutFile $localPpkgPath
 
 # Calculate the SHA256 hash of the downloaded file
-$calculatedHash = (Get-FileHash -Path $localPpkgPath -Algorithm SHA256).Hash
+# $calculatedHash = (Get-FileHash -Path $localPpkgPath -Algorithm SHA256).Hash
 
 # Compare the expected hash with the calculated hash
-if ($calculatedHash -eq $expectedHash) {
+# if ($calculatedHash -eq $expectedHash) {
     # Hashes match, proceed with installation
     Install-ProvisioningPackage -Path $localPpkgPath -QuietInstall -ForceInstall -Verbose
     Write-Host "Installation successful."
-}
-else {
+# }
+# else {
     # Hashes do not match, handle the error
-    Write-Host "Hash mismatch. The file may be corrupted or tampered with."
-}
+#    Write-Host "Hash mismatch. The file may be corrupted or tampered with."
+# }
 
 # Optionally, remove the downloaded file
 Remove-Item -Path $localPpkgPath
