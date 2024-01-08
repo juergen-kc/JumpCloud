@@ -1,5 +1,5 @@
 # Define the presigned URL of the .ppkg file
-$ppkgUrl = "https://custom-pkg.s3.ap-southeast-1.amazonaws.com/jumpcloud_ppkg.ppkg?AWSAccessKeyId=AKIA4FRBAMIMEZE3KTUH&Expires=1712451171&Signature=grVM6LUJc4GYTj3KvJn7WyF4Bt4%3D"
+$ppkgUrl = "https://custom-pkg.s3.ap-southeast-1.amazonaws.com/jumpcloud_ppkg.ppkg"
 
 # Define the local path to save the .ppkg file
 $localPpkgPath = "C:\Windows\Temp\JumpCloud.ppkg"
