@@ -35,7 +35,7 @@ $settings = New-ScheduledTaskSettingsSet -RunOnlyIfIdle
 
 # New-ScheduledTaskTrigger does NOT support creating on-idle triggers, but you can use the relevant CIM class directly, courtesy of this excellent blog post:
 # https://www.ctrl.blog/entry/idle-task-scheduler-powershell.html
-$trigger = Get-CimInstance -ClassName MSFT_TaskIdleTrigger -Namespace Root/Microsoft/Windows/TaskScheduler  
+$trigger = Get-CimClass -ClassName MSFT_TaskIdleTrigger -Namespace Root/Microsoft/Windows/TaskScheduler  
 
 # Create and register the task with the specified action, principal, settings, and trigger:
 Register-ScheduledTask $taskName -Action $action -Principal $principal -Settings $settings -Trigger $trigger -Force
